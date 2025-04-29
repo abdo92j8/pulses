@@ -1,0 +1,489 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Unlock premium workout apps for free with FitPulses! Complete simple CPA tasks to access top fitness apps.">
+  <meta name="keywords" content="CPA, workout apps, free apps, fitness, FitPulses">
+  <meta property="og:title" content="FitPulses - Free Premium Workout Apps">
+  <meta property="og:description" content="Join FitPulses to unlock premium workout apps by completing easy CPA tasks!">
+  <meta property="og:image" content="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>FitPulses - Unlock Premium Workout Apps for Free</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #2F2F2F;
+      color: #FFFFFF;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .navbar-brand {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+    }
+
+    section {
+      padding: 60px 0;
+      position: relative;
+      border-bottom: 1px solid #D3D3D3;
+    }
+
+    /* Header */
+    header {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #D3D3D3;
+    }
+    header .navbar-brand {
+      font-size: 2rem;
+      color: #FFFFFF;
+    }
+    header .nav-link {
+      color: #FFFFFF;
+    }
+    header .nav-link:hover, header .nav-link.active {
+      color: #D3D3D3;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url('https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg') no-repeat center;
+      background-size: cover;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      color: #FFFFFF;
+    }
+    .hero p {
+      font-size: 1.6rem;
+      margin-bottom: 30px;
+    }
+    .hero .btn {
+      font-size: 1.2rem;
+      padding: 12px 40px;
+      background: #FFFFFF;
+      color: #000000;
+      border-radius: 50px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .hero .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Card Design (Nike-Inspired) */
+    .app-grid, .task-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 15px;
+    }
+    .card {
+      background: #F5F5F5;
+      color: #000000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+    .card img {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 15px;
+      text-align: center;
+    }
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .card-text {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+    .card .btn {
+      background: #FFFFFF;
+      color: #000000;
+      border-radius: 20px;
+      padding: 10px 20px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .card .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Testimonials Section */
+    .testimonials .carousel-item {
+      transition: transform 0.5s ease;
+    }
+    .testimonials .card {
+      background: #FFFFFF;
+      color: #000000;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      animation: fadeInUp 0.5s ease-out;
+    }
+    .testimonials .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+    .testimonials .card-content p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .testimonials .card-content small {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      background: #000000;
+      color: #FFFFFF;
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #D3D3D3;
+    }
+    footer a {
+      color: #D3D3D3;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      color: #FFFFFF;
+    }
+
+    /* Floating CTA */
+    .floating-cta {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .floating-cta .btn {
+      width: 60px;
+      height: 60px;
+      background: #FFFFFF;
+      color: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    .floating-cta .btn:hover {
+      animation: shake 0.5s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 3rem; }
+      .hero p { font-size: 1.2rem; }
+      .hero .btn { font-size: 1rem; padding: 10px 30px; }
+      .app-grid, .task-grid { grid-template-columns: 1fr; }
+      .card img { height: 160px; }
+      .testimonials .card-content p { font-size: 0.9rem; }
+      .testimonials .card-content small { font-size: 0.8rem; }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1rem; }
+      .hero .btn { font-size: 0.9rem; padding: 8px 20px; }
+      .card img { height: 150px; }
+      .floating-cta .btn { width: 50px; height: 50px; font-size: 1.2rem; }
+      .testimonials .avatar { width: 50px; height: 50px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark container">
+      <a class="navbar-brand" href="#">FitPulses</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#apps">Apps</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tasks">Tasks</a></li>
+          <li class="nav-item"><a class="nav-link" href="#offers">How It Works</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials">Reviews</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Unlock Premium Workout Apps for FREE!</h1>
+      <p>Complete simple CPA tasks to access top fitness apps with FitPulses.</p>
+      <a href="#offers" class="btn">Get Started Now</a>
+    </div>
+  </section>
+
+  <!-- App Preview Section -->
+  <section id="apps" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Discover Premium Workout Apps</h2>
+      <p class="text-center mb-4">Explore top fitness apps you can unlock.</p>
+      <div class="app-grid" id="app-container"></div>
+    </div>
+  </section>
+
+  <!-- Task Preview Section -->
+  <section id="tasks" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Sample CPA Tasks</h2>
+      <p class="text-center mb-4">See how easy it is to unlock apps!</p>
+      <div class="task-grid" id="task-container"></div>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  <section id="video" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">See How It Works</h2>
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="FitPulses Tutorial Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video-player"></iframe>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="offers" class="how-it-works">
+    <div class="container">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <i class="fas fa-tasks fa-3x"></i>
+          <h4>Complete a Task</h4>
+          <p>Choose from surveys, trials, or offers.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="fas fa-unlock fa-3x"></i>
+          <h4>Unlock Apps</h4>
+          <p>Access premium apps instantly.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="fas fa-dumbbell fa-3x"></i>
+          <h4>Start Training</h4>
+          <p>Enjoy tailored fitness apps.</p>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="https://your-cpa-network.com" class="btn btn-success btn-lg">Start Earning Apps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Counter -->
+  <section id="stats" class="stats text-center">
+    <div class="container">
+      <h2>Join Our Community</h2>
+      <p><span id="user-count">0</span> Users Unlocked Apps!</p>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <h2 class="text-center mb-4">What Our Users Say</h2>
+      <div id="testimonial-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="card">
+              <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg" alt="Alex M. Profile" class="avatar">
+              <div class="card-content">
+                <p>"FitPulses made getting premium workout apps so easy!"</p>
+                <p><small>– Alex M.</small></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="card">
+              <img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg" alt="Sarah T. Profile" class="avatar">
+              <div class="card-content">
+                <p>"The tasks were quick, and the fitness apps are amazing!"</p>
+                <p><small>– Sarah T.</small></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="card">
+              <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg" alt="Ryan K. Profile" class="avatar">
+              <div class="card-content">
+                <p>"I’m hooked on the free workout apps I unlocked!"</p>
+                <p><small>– Ryan K.</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating CTA -->
+  <div class="floating-cta">
+    <a href="https://your-cpa-network.com" class="btn" aria-label="Get Started with CPA Network"><i class="fas fa-arrow-right"></i></a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 FitPulses. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Mock App Data
+    const apps = [
+      { name: "FitPro", category: "Fitness", subCategory: "Cardio", image: "https://images.pexels.com/photos/416778/pexels-photo-416778.jpeg" },
+      { name: "RunTrack", category: "Fitness", subCategory: "Cardio", image: "https://images.pexels.com/photos/416779/pexels-photo-416779.jpeg" },
+      { name: "GymMaster", category: "Fitness", subCategory: "Strength", image: "https://images.pexels.com/photos/416780/pexels-photo-416780.jpeg" },
+      { name: "ZenFit", category: "Fitness", subCategory: "Yoga", image: "https://images.pexels.com/photos/416781/pexels-photo-416781.jpeg" },
+      { name: "CardioBoost", category: "Fitness", subCategory: "Cardio", image: "https://images.pexels.com/photos/416782/pexels-photo-416782.jpeg" },
+      { name: "FitPlan", category: "Fitness", subCategory: "Strength", image: "https://images.pexels.com/photos/416783/pexels-photo-416783.jpeg" }
+    ];
+
+    // Mock Task Data
+    const tasks = [
+      { task: "Complete a Survey", time: "2 min", image: "https://images.pexels.com/photos/416784/pexels-photo-416784.jpeg" },
+      { task: "Sign Up for Trial", time: "5 min", image: "https://images.pexels.com/photos/416785/pexels-photo-416785.jpeg" },
+      { task: "Watch an Ad", time: "1 min", image: "https://images.pexels.com/photos/416786/pexels-photo-416786.jpeg" }
+    ];
+
+    // Render Apps
+    const appContainer = document.getElementById('app-container');
+    apps.forEach(app => {
+      appContainer.innerHTML += `
+        <div class="card">
+          <img src="${app.image}" alt="${app.name} App Preview">
+          <div class="card-body">
+            <h5 class="card-title">${app.name}</h5>
+            <p class="card-text">${app.subCategory}</p>
+            <a href="#offers" class="btn">Unlock App</a>
+          </div>
+        </div>
+      `;
+    });
+
+    // Render Tasks
+    const taskContainer = document.getElementById('task-container');
+    tasks.forEach(task => {
+      taskContainer.innerHTML += `
+        <div class="card">
+          <img src="${task.image}" alt="${task.task} Task Preview">
+          <div class="card-body">
+            <h5 class="card-title">${task.task}</h5>
+            <p class="card-text">Time: ${task.time}</p>
+            <a href="#offers" class="btn">Try Task</a>
+          </div>
+        </div>
+      `;
+    });
+
+    // Social Proof Counter
+    const countElement = document.getElementById('user-count');
+    let count = 0;
+    const target = 10000;
+    const countObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        const interval = setInterval(() => {
+          count += 100;
+          countElement.textContent = count.toLocaleString();
+          if (count >= target) clearInterval(interval);
+        }, 50);
+        countObserver.unobserve(countElement);
+      }
+    });
+    countObserver.observe(countElement);
+  </script>
+</body>
+</html>
