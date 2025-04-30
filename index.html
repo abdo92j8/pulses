@@ -7,7 +7,7 @@
   <meta name="keywords" content="CPA, workout apps, free apps, fitness, FitPulses">
   <meta property="og:title" content="FitPulses - Free Premium Workout Apps">
   <meta property="og:description" content="Join FitPulses to unlock premium workout apps by completing easy CPA tasks!">
-  <meta property="og:image" content="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg">
+  <meta property="og:image" content="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/x-icon" href="logo.png">
   <title>FitPulses - Unlock Premium Workout Apps for Free</title>
@@ -224,80 +224,56 @@
       z-index: 1000;
     }
     .floating-cta .btn {
-      width: -after: none; }
-    .hero .btn {
-      font-size: 1rem;
-      padding: 10px 30px;
-    }
-    .app-grid, .task-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .card img {
-      height: 160px;
-    }
-    .testimonials .card-content p {
-      font-size: 0.9rem;
-    }
-    .testimonials .card-content small {
-      font-size: 0.8rem;
-    }
-    header .navbar-brand img {
-      width: 30px;
-      height: 30px;
-    }
-    .container {
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .hero h1 {
-      font-size: 2rem;
-    }
-    .hero p {
-      font-size: 1rem;
-    }
-    .hero .btn {
-      font-size: 0.9rem;
-      padding: 8px 20px;
-    }
-    .card img {
-      height: 140px;
-    }
-    .floating-cta .btn {
-      width: 50px;
-      height: 50px;
-      font-size: 1.2rem;
-    }
-    .testimonials .avatar {
-      width: 50px;
-      height: 50px;
-    }
-    header .navbar-brand img {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-    }
-    header .navbar-brand {
+      width: 60px;
+      height: 60px;
+      background: #FFFFFF;
+      color: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 1.5rem;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
-    .app-grid, .task-grid {
-      padding: 10px;
+    .floating-cta .btn:hover {
+      animation: shake 0.5s;
     }
-    section {
-      padding: 40px 0;
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
     }
-    .container {
-      padding-left: 10px;
-      padding-right: 10px;
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 3rem; }
+      .hero p { font-size: 1.2rem; }
+      .hero .btn { font-size: 1rem; padding: 10px 30px; }
+      .app-grid, .task-grid { grid-template-columns: 1fr; gap: 20px; }
+      .card img { height: 160px; }
+      .testimonials .card-content p { font-size: 0.9rem; }
+      .testimonials .card-content small { font-size: 0.8rem; }
+      header .navbar-brand img { width: 30px; height: 30px; }
+      .container { padding-left: 15px; padding-right: 15px; }
     }
-    .hero-content {
-      padding: 0 10px;
+
+    @media (max-width: 576px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .hero .btn { font-size: 0.9rem; padding: 8px 20px; }
+      .card img { height: 140px; }
+      .floating-cta .btn { width: 50px; height: 50px; font-size: 1.2rem; }
+      .testimonials .avatar { width: 50px; height: 50px; }
+      header .navbar-brand img { width: 24px; height: 24px; margin-right: 8px; }
+      header .navbar-brand { font-size: 1.5rem; }
+      .app-grid, .task-grid { padding: 10px; }
+      section { padding: 40px 0; }
+      .container { padding-left: 10px; padding-right: 10px; }
+      .hero-content { padding: 0 10px; }
     }
-  }
-</style>
+  </style>
 </head>
 <body>
   <!-- Header -->
